@@ -8,7 +8,10 @@ module "aws_backup_example" {
   # Plan
   plan_name = var.plan_name
 
-  backup_policy= var.backup_policy
+  backup_policy = var.backup_policy
+  backup_tag_policy = var.backup_tag_policy
+
+  assume_role_policy = var.assume_role_policy
 
   # Multiple rules using a list of maps
   rules = [

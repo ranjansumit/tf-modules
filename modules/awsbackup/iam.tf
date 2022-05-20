@@ -1,20 +1,7 @@
 resource "aws_iam_role" "ab_role" {
   count              = var.enabled && var.iam_role_arn == null ? 1 : 0
   name               = "aws-backup-plan-${var.plan_name}-role"
-  assume_role_policy = <<POLICY
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": ["sts:AssumeRole"],
-      "Effect": "allow",
-      "Principal": {
-        "Service": ["backup.amazonaws.com"]
-      }
-    }
-  ]
-}
-POLICY
+  assume_role_policy = var.assume_role_policy
 
   tags = var.tags
 }
@@ -37,23 +24,7 @@ resource "aws_iam_policy" "ab_tag_policy" {
   count       = var.enabled && var.iam_role_arn == null ? 1 : 0
   description = "AWS Backup Tag policy"
 
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-        "Effect": "Allow",
-        "Action": [
-            "backup:TagResource",
-            "backup:ListTags",
-            "backup:UntagResource",
-            "tag:GetResources"
-        ],
-        "Resource": "*"
-    }
-  ]
-}
-EOF
+  policy = var.backup_tag_policy
 }
 
 

@@ -50,6 +50,34 @@ variable "backup_policy"{
 POLICY
 }
 
+#Backup Tag Policy
+
+variable "backup_tag_policy"{
+  description = "The backup tag policy to assign"
+  type = string 
+  default = null
+}
+
+#IAM assume role policy 
+variable "assume_role_policy"{
+  description = "The assume_role_policy for ab_role"
+  type = string 
+  default = <<POLICY
+  {
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": ["sts:AssumeRole"],
+      "Effect": "allow",
+      "Principal": {
+        "Service": ["backup.amazonaws.com"]
+      }
+    }
+  ]
+}
+POLICY
+}
+
 #
 # AWS Backup plan
 #

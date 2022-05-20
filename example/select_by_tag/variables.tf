@@ -210,3 +210,45 @@ variable "iam_role_arn" {
   type        = string
   default     = null
 }
+
+
+variable "backup_tag_policy"{
+  description = "The backup tag policy to assign"
+  type = string 
+  default = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+        "Effect": "Allow",
+        "Action": [
+            "backup:TagResource",
+            "backup:ListTags",
+            "backup:UntagResource",
+            "tag:GetResources"
+        ],
+        "Resource": "*"
+    }
+  ]
+}
+POLICY
+}
+
+variable "assume_role_policy"{
+  description = "The assume_role_policy for ab_role"
+  type = string 
+  default = <<POLICY
+  {
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": ["sts:AssumeRole"],
+      "Effect": "allow",
+      "Principal": {
+        "Service": ["backup.amazonaws.com"]
+      }
+    }
+  ]
+}
+POLICY
+}
